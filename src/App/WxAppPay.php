@@ -202,14 +202,17 @@ class WxAppPay
         }
         return $data;
     }
-
+    /**
+     *
+     * 验证签名
+     * return Boole
+     */
     public function verify()
     {
-        if (empty($_POST) && empty($_GET)) {
+        $data = $this->getNotifyData
+        if(empty($data)){
             return false;
         }
-
-        $data = $_POST ?: $_GET;
         $sign = $this->MakeSign($data);
         if ($sign != $data['sign']) {
             return false;
