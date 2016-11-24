@@ -7,10 +7,12 @@
             "email": "771705386@qq.com" 
         }
     ],
-  	"require": {},
+    "license": "MIT",
+  	"require": { "php": ">=5.4.0"},
   	"autoload": { 
   		"psr-4": { 
   		"Kaer\\Wxpay\\": "src/" 
   		} 
-  	} 
+  	},
+    "minimum-stability": "stable"
 }
