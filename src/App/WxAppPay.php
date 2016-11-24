@@ -278,7 +278,9 @@ class WxAppPay
         if (!empty($params)) {
             $array = array();
             foreach ($params as $key => $value) {
-                $array[] = $key . '=' . $value;
+                if ($key != "sign") {
+                    $array[] = $key . '=' . $value;
+                }
             }
             $string = implode("&", $array);
         }
