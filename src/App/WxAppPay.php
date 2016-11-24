@@ -189,7 +189,7 @@ class WxAppPay
     public function getNotifyData()
     {
         //获取通知的数据
-        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml = file_get_contents("php://input");
         $data = array();
         if (empty($xml)) {
             return false;
@@ -209,7 +209,7 @@ class WxAppPay
      */
     public function verify()
     {
-        $data = $this->getNotifyData
+        $data = $this->getNotifyData();
         if(empty($data)){
             return false;
         }
@@ -218,8 +218,6 @@ class WxAppPay
             return false;
         }
         return true;
-
-
     }
 
     /**
