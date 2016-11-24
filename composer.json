@@ -1,0 +1,16 @@
+{
+    "name": "kaer/wxpay-for-laravel",
+    "description": "wxpay for laravel",
+    "authors": [
+        {
+            "name": "kaer",
+            "email": "771705386@qq.com" 
+        }
+    ],
+  	"require": {},
+  	"autoload": { 
+  		"psr-4": { 
+  		"Kaer\\Wxpay\\": "src/" 
+  		} 
+  	} 
+}
