@@ -6,7 +6,7 @@
  * Time: 下午2:25
  */
 
-namespace Kaer\Wxpay\Laravel\App;
+namespace Kaer\WxpayForLaravel\App;
 
 class WxAppPay
 {
