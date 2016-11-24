@@ -1,0 +1,25 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: jialei
+ * Date: 2016/11/23
+ * Time: 下午3:36
+ */
+
+namespace Kaer\Wxpay\Facades;
+
+
+use Illuminate\Support\Facades\Facade;
+
+class WxpayApp extends Facade
+{
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return 'wxpay.app';
+    }
+}
