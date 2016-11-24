@@ -6,7 +6,7 @@
  * Time: 下午3:36
  */
 
-namespace Kaer\Wxpay\Facades;
+namespace Kaer\Wxpay\Laravel\Facades;
 
 
 use Illuminate\Support\Facades\Facade;

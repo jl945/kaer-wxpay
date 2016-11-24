@@ -1,9 +1,9 @@
 <?php
 
-namespace Kaer\Wxpay;
+namespace Kaer\Wxpay\Laravel;
 
 use Illuminate\Support\ServiceProvider;
-use Kaer\Wxpay\App\WxAppPay;
+use Kaer\Wxpay\Laravel\App\WxAppPay;
 
 class WxpayServiceProvider extends ServiceProvider
 {

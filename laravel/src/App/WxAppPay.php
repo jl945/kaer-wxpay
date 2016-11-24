@@ -6,7 +6,7 @@
  * Time: 下午2:25
  */
 
-namespace Kaer\Wxpay\App;
+namespace Kaer\Wxpay\Laravel\App;
 
 class WxAppPay
 {
@@ -38,8 +38,6 @@ class WxAppPay
     private $notify_url;
     //交易类型
     private $trade_type;
-    //附加参数
-    private $other;
     //支付密钥
     private $key;
     //证书路径
@@ -100,12 +98,6 @@ class WxAppPay
         return $this;
     }
 
-    public function setOther($other)
-    {
-        $this->other = $other;
-        return $this;
-    }
-
 
     /**
      * 下单方法
@@ -124,7 +116,6 @@ class WxAppPay
         $this->params['spbill_create_ip'] = $this->spbill_create_ip;
         $this->params['notify_url'] = $this->notify_url;
         $this->params['trade_type'] = $this->trade_type;
-        $this->params['other'] = $this->other;
         //获取签名数据
         $this->sign = $this->MakeSign($this->params);
         $this->params['sign'] = $this->sign;
