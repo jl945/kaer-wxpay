@@ -224,7 +224,20 @@ class WxAppPay
      * 接收通知成功后应答输出XML数据
      * @param string $xml
      */
-    public function replyNotify()
+    public function replyFailNotify()
+    {
+        $data['return_code'] = 'FAIL';
+        $data['return_msg'] = '签名失败';
+        $xml = $this->data_to_xml($data);
+        echo $xml;
+        die();
+    }
+
+    /**
+     * 接收通知成功后应答输出XML数据
+     * @param string $xml
+     */
+    public function replySuccessNotify()
     {
         $data['return_code'] = 'SUCCESS';
         $data['return_msg'] = 'OK';
