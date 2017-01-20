@@ -6,9 +6,10 @@
  * Time: 下午2:25
  */
 
-namespace Kaer\WxpayForLaravel\App;
+namespace Kaer\WxpayForLaravel\Open;
 
-class WxAppPay
+
+class WxPay
 {
     //接口API URL前缀
     const API_URL_PREFIX = 'https://api.mch.weixin.qq.com';
@@ -40,6 +41,10 @@ class WxAppPay
     private $trade_type;
     //支付密钥
     private $key;
+
+    //附加参数
+    private $attach='';
+    private $openid;
     //证书路径
     private $SSLCERT_PATH;
     private $SSLKEY_PATH;
@@ -98,6 +103,17 @@ class WxAppPay
         return $this;
     }
 
+    public function setAttach($attach)
+    {
+        $this->attach = $attach;
+        return $this;
+    }
+
+    public function setOpenId($openId)
+    {
+        $this->openid = $openId;
+        return $this;
+    }
 
     /**
      * 下单方法
@@ -116,12 +132,13 @@ class WxAppPay
         $this->params['spbill_create_ip'] = $this->spbill_create_ip;
         $this->params['notify_url'] = $this->notify_url;
         $this->params['trade_type'] = $this->trade_type;
+        $this->params['attach'] = $this->attach;
+        $this->params['openid'] = $this->openid;
         //获取签名数据
         $this->sign = $this->MakeSign($this->params);
         $this->params['sign'] = $this->sign;
-
         $xml = $this->data_to_xml($this->params);
-        $response = $this->postXmlCurl($xml, self::API_URL_PREFIX . self::UNIFIEDORDER_URL);
+        $response = $this->postXmlCurl($xml, 'https://api.mch.weixin.qq.com/pay/unifiedorder');
         if (!$response) {
             return false;
         }
@@ -202,7 +219,6 @@ class WxAppPay
         }
         return $data;
     }
-
     /**
      *
      * 验证签名
@@ -211,7 +227,7 @@ class WxAppPay
     public function verify()
     {
         $data = $this->getNotifyData();
-        if (empty($data)) {
+        if(empty($data)){
             return false;
         }
         $sign = $this->MakeSign($data);
@@ -248,19 +264,19 @@ class WxAppPay
     }
 
     /**
-     * 生成APP端支付参数
+     * 生成支付参数
      * @param  $prepayid   预支付id
      */
-    public function getAppPayParams($prepayid)
+    public function getPayParams($prepayid)
     {
-        $data['appid'] = $this->appid;
-        $data['partnerid'] = $this->mch_id;
-        $data['prepayid'] = $prepayid;
-        $data['package'] = 'Sign=WXPay';
-        $data['noncestr'] = $this->genRandomString();
-        $data['timestamp'] = time();
-        $data['sign'] = $this->MakeSign($data);
-        return $data;
+        $data['appId'] = $this->appid;
+        if(empty($data['appId'] )){  return '';}
+        $data['timeStamp'] = (string)time();
+        $data['nonceStr'] = $this->genRandomString();
+        $data['package'] = "prepay_id=$prepayid";
+        $data['signType'] = "MD5";
+        $data['paySign'] = $this->MakeSign($data);
+        return json_encode($data);
     }
 
     /**
@@ -292,7 +308,7 @@ class WxAppPay
         if (!empty($params)) {
             $array = array();
             foreach ($params as $key => $value) {
-                if ($key != "sign") {
+                if ($key != "sign" && !empty($value)) {
                     $array[] = $key . '=' . $value;
                 }
             }

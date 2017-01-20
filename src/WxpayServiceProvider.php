@@ -4,6 +4,7 @@ namespace Kaer\WxpayForLaravel;
 
 use Illuminate\Support\ServiceProvider;
 use Kaer\WxpayForLaravel\App\WxAppPay;
+use Kaer\WxpayForLaravel\Open\WxPay;
 
 class WxpayServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,8 @@ class WxpayServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/config/kaer-wxpay.php' => config_path('kaer-wxpay.php'),
             __DIR__ . '/config/kaer-wxpay-app.php' => config_path('kaer-wxpay-app.php'),
+            __DIR__ . '/config/kaer-wxpay-open.php' => config_path('kaer-wxpay-open.php'),
+
         ]);
     }
 
@@ -36,6 +39,15 @@ class WxpayServiceProvider extends ServiceProvider
                 ->setKey($app->config->get('kaer-wxpay-app.key'));
             return $wxpay;
         });
+        $this->app->bind('wxpay.open', function ($app) {
+            $wxpay = new WxPay();
+            $wxpay->setAppid($app->config->get('kaer-wxpay-open.app_id'))
+                ->setMchId($app->config->get('kaer-wxpay-open.mch_id'))
+                ->setNotifyUrl($app->config->get('kaer-wxpay-open.notify_url'))
+                ->setTradeType($app->config->get('kaer-wxpay-open.trade_type'))
+                ->setKey($app->config->get('kaer-wxpay-open.key'));
+            return $wxpay;
+        });
     }
 
     /**
@@ -47,6 +59,7 @@ class WxpayServiceProvider extends ServiceProvider
     {
         return [
             'wxpay.app',
+            'wxpay.open',
         ];
     }
 }
